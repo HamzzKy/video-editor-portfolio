@@ -883,3 +883,69 @@
             font-size: 32px;
             color: #4ecdc4;
         }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.05) 0%, rgba(255, 107, 107, 0.05) 100%);
+            border: 2px solid rgba(78, 205, 196, 0.2);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: #4ecdc4;
+            box-shadow: 0 15px 40px rgba(78, 205, 196, 0.3);
+        }
+
+        .service-card h3 {
+            font-size: 24px;
+            color: #4ecdc4;
+            margin-bottom: 15px;
+        }
+
+        .service-card p {
+            font-size: 16px;
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        .site-footer {
+            background: rgba(10, 10, 10, 0.9);
+            border-top: 1px solid rgba(78, 205, 196, 0.2);
+            padding: 40px 50px;
+            text-align: center;
+        }
+
+        .site-footer p {
+            color: #8899aa;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #4ecdc4;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }

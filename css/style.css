@@ -157,6 +157,8 @@
             display: flex;
             gap: 30px;
             list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
         .nav-links a {
@@ -806,7 +808,7 @@
             transform: translateX(5px);
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             h1 {
                 font-size: 48px;
             }
@@ -853,11 +855,6 @@
 
             .portfolio-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .nav-links {
-                gap: 15px;
-                font-size: 14px;
             }
         }
 

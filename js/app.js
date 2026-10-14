@@ -14,9 +14,9 @@
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         container.appendChild(renderer.domElement);
 
-        // Clean dark background
+        // Clean dark background with volumetric fog
         scene.background = new THREE.Color(0x0a0a0a);
-        scene.fog = new THREE.FogExp2(0x0a0a0a, 0.004);
+        scene.fog = new THREE.Fog(0x0a0a0a, 20, 80);
 
         // Warm ambient lighting
         const ambientLight = new THREE.AmbientLight(0xffaa55, 0.5);
@@ -51,13 +51,13 @@
 
         const glowLayers = [backLight1, backLight2, backLight3];
 
-        // Software logos - cleaner positioning
+        // Software logos - depth layered positioning
         const softwareLogos = [
-{ name: 'Premiere Pro', image: 'logo/pr-new.png', pos: [-20, 6, -25], scale: 6 },
-             { name: 'After Effects', image: 'logo/ae-new.png', pos: [22, -4, -28], scale: 5.5 },
-             { name: 'CapCut', image: 'logo/Capcut-icon.png', pos: [-24, -10, -20], scale: 5 },
-             { name: 'Photoshop', image: 'logo/ps-new.png', pos: [20, 12, -32], scale: 6 },
-             { name: 'DaVinci', image: 'logo/davinci-new.png', pos: [-15, -15, -30], scale: 5.5 }
+            { name: 'Premiere Pro', image: 'logo/pr-new.png', pos: [-18, 5, -22], scale: 6.5 },
+            { name: 'After Effects', image: 'logo/ae-new.png', pos: [20, -3, -35], scale: 6 },
+            { name: 'CapCut', image: 'logo/Capcut-icon.png', pos: [-22, -9, -28], scale: 5.5 },
+            { name: 'Photoshop', image: 'logo/ps-new.png', pos: [18, 11, -25], scale: 6.2 },
+            { name: 'DaVinci', image: 'logo/davinci-new.png', pos: [0, -12, -40], scale: 5.8 }
         ];
 
         // Create volumetric logo objects with depth
@@ -72,12 +72,13 @@
             const material = new THREE.MeshStandardMaterial({
                 map: texture,
                 transparent: true,
-                opacity: 0.85,
+                opacity: 0.88,
                 side: THREE.DoubleSide,
-                metalness: 0.2,
-                roughness: 0.5,
+                metalness: 0.3,
+                roughness: 0.4,
                 emissive: 0xffd700,
-                emissiveIntensity: 0.08
+                emissiveIntensity: 0.12,
+                envMapIntensity: 1.2
             });
 
             const mesh = new THREE.Mesh(geometry, material);
@@ -85,17 +86,30 @@
             mesh.receiveShadow = true;
             group.add(mesh);
 
-            // Subtle glow effect
-            const glowGeometry = new THREE.PlaneGeometry(scale * 1.08, scale * 1.08);
-            const glowMaterial = new THREE.MeshBasicMaterial({
+            // Multi-layer glow effect
+            const glowGeometry1 = new THREE.PlaneGeometry(scale * 1.12, scale * 1.12);
+            const glowMaterial1 = new THREE.MeshBasicMaterial({
                 color: 0xffd700,
                 transparent: true,
-                opacity: 0.12,
-                side: THREE.DoubleSide
+                opacity: 0.15,
+                side: THREE.DoubleSide,
+                blending: THREE.AdditiveBlending
             });
-            const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
-            glowMesh.position.z = -0.2;
-            group.add(glowMesh);
+            const glowMesh1 = new THREE.Mesh(glowGeometry1, glowMaterial1);
+            glowMesh1.position.z = -0.15;
+            group.add(glowMesh1);
+
+            const glowGeometry2 = new THREE.PlaneGeometry(scale * 1.25, scale * 1.25);
+            const glowMaterial2 = new THREE.MeshBasicMaterial({
+                color: 0xffa500,
+                transparent: true,
+                opacity: 0.08,
+                side: THREE.DoubleSide,
+                blending: THREE.AdditiveBlending
+            });
+            const glowMesh2 = new THREE.Mesh(glowGeometry2, glowMaterial2);
+            glowMesh2.position.z = -0.3;
+            group.add(glowMesh2);
 
             group.position.set(position[0], position[1], position[2]);
             return group;
@@ -109,15 +123,16 @@
                 baseX: software.pos[0],
                 baseY: software.pos[1],
                 baseZ: software.pos[2],
-                floatSpeed: 0.3 + Math.random() * 0.3,
-                floatRangeY: 2 + Math.random() * 1.5,
-                floatRangeX: 1 + Math.random() * 0.8,
-                rotSpeedX: (Math.random() - 0.5) * 0.002,
-                rotSpeedY: (Math.random() - 0.5) * 0.003,
-                rotSpeedZ: (Math.random() - 0.5) * 0.0015,
-                phaseOffset: index * 1.2,
-                orbitRadius: 1.5 + Math.random() * 2,
-                orbitSpeed: 0.15 + Math.random() * 0.2
+                floatSpeed: 0.25 + Math.random() * 0.25,
+                floatRangeY: 2.5 + Math.random() * 1.5,
+                floatRangeX: 1.2 + Math.random() * 0.8,
+                rotSpeedX: (Math.random() - 0.5) * 0.0025,
+                rotSpeedY: (Math.random() - 0.5) * 0.0035,
+                rotSpeedZ: (Math.random() - 0.5) * 0.0018,
+                phaseOffset: index * 1.4,
+                orbitRadius: 2 + Math.random() * 2.5,
+                orbitSpeed: 0.12 + Math.random() * 0.18,
+                proximityGlow: 0
             };
 
             logos.push(logo);
@@ -256,42 +271,61 @@
             scene.add(cube);
         }
 
-        // Elegant particle system
+        // Enhanced particle system with trails
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 1800;
+        const particlesCount = 2200;
         const posArray = new Float32Array(particlesCount * 3);
         const sizeArray = new Float32Array(particlesCount);
         const velocityArray = new Float32Array(particlesCount * 3);
+        const colorArray = new Float32Array(particlesCount * 3);
 
         for(let i = 0; i < particlesCount; i++) {
-            posArray[i * 3] = (Math.random() - 0.5) * 120;
-            posArray[i * 3 + 1] = (Math.random() - 0.5) * 80;
-            posArray[i * 3 + 2] = -Math.random() * 70;
+            posArray[i * 3] = (Math.random() - 0.5) * 130;
+            posArray[i * 3 + 1] = (Math.random() - 0.5) * 90;
+            posArray[i * 3 + 2] = -Math.random() * 75;
 
-            sizeArray[i] = Math.random() * 0.06 + 0.02;
+            sizeArray[i] = Math.random() * 0.08 + 0.025;
 
-            velocityArray[i * 3] = (Math.random() - 0.5) * 0.008;
-            velocityArray[i * 3 + 1] = (Math.random() - 0.5) * 0.008;
-            velocityArray[i * 3 + 2] = Math.random() * 0.015 + 0.008;
+            velocityArray[i * 3] = (Math.random() - 0.5) * 0.01;
+            velocityArray[i * 3 + 1] = (Math.random() - 0.5) * 0.01;
+            velocityArray[i * 3 + 2] = Math.random() * 0.018 + 0.01;
+
+            // Golden gradient colors
+            const colorVariant = Math.random();
+            if (colorVariant < 0.6) {
+                colorArray[i * 3] = 1.0;
+                colorArray[i * 3 + 1] = 0.87 + Math.random() * 0.13;
+                colorArray[i * 3 + 2] = 0.3 + Math.random() * 0.2;
+            } else {
+                colorArray[i * 3] = 1.0;
+                colorArray[i * 3 + 1] = 0.65 + Math.random() * 0.2;
+                colorArray[i * 3 + 2] = 0.0;
+            }
         }
 
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
         particlesGeometry.setAttribute('size', new THREE.BufferAttribute(sizeArray, 1));
         particlesGeometry.setAttribute('velocity', new THREE.BufferAttribute(velocityArray, 3));
+        particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
 
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.04,
-            color: 0xffdd88,
+            size: 0.045,
+            vertexColors: true,
             transparent: true,
-            opacity: 0.5,
+            opacity: 0.6,
             blending: THREE.AdditiveBlending,
-            sizeAttenuation: true
+            sizeAttenuation: true,
+            depthWrite: false
         });
 
         const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
         scene.add(particlesMesh);
 
         camera.position.set(0, 0, 35);
+        
+        // Camera animation variables
+        let cameraTime = 0;
+        const cameraBaseZ = 35;
 
         let mouseX = 0;
         let mouseY = 0;
@@ -330,46 +364,69 @@
             mouseX += (targetMouseX - mouseX) * 0.03;
             mouseY += (targetMouseY - mouseY) * 0.03;
 
-            // Smoother logo animation
+            // Enhanced logo animation with proximity interaction
             logos.forEach((logo, index) => {
-                // Gentle orbital motion
-                const orbitAngle = time * 0.06 + logo.userData.phaseOffset;
-                const orbitRadiusX = 25;
-                const orbitRadiusZ = 12;
+                // Smooth orbital motion with depth variation
+                const orbitAngle = time * 0.055 + logo.userData.phaseOffset;
+                const orbitRadiusX = 22 + Math.sin(time * 0.3 + index) * 3;
+                const orbitRadiusZ = 10 + Math.cos(time * 0.25 + index) * 2;
                 
                 const orbitX = Math.cos(orbitAngle) * orbitRadiusX;
                 const orbitZ = Math.sin(orbitAngle) * orbitRadiusZ;
                 
-                // Smooth vertical float
+                // Elegant vertical float
                 const floatY = Math.sin(time * logo.userData.floatSpeed + logo.userData.phaseOffset) * logo.userData.floatRangeY;
 
-                // Subtle horizontal drift
+                // Smooth horizontal drift with secondary motion
                 const driftX = Math.sin(time * logo.userData.floatSpeed * 0.6 + logo.userData.phaseOffset) * logo.userData.floatRangeX;
+                const driftZ = Math.cos(time * logo.userData.floatSpeed * 0.4 + logo.userData.phaseOffset) * 0.8;
 
                 // Final position
                 logo.position.x = orbitX + driftX;
                 logo.position.y = logo.userData.baseY + floatY;
-                logo.position.z = logo.userData.baseZ + orbitZ;
+                logo.position.z = logo.userData.baseZ + orbitZ + driftZ;
 
-                // Gentle rotation
+                // Natural rotation with inertia
                 logo.rotation.x += logo.userData.rotSpeedX;
                 logo.rotation.y += logo.userData.rotSpeedY;
                 logo.rotation.z += logo.userData.rotSpeedZ;
 
-                // Smooth opacity based on depth
-                const distance = camera.position.distanceTo(logo.position);
-                const opacity = THREE.MathUtils.clamp(1 - (distance - 20) / 45, 0.4, 0.85);
-                logo.children[0].material.opacity = opacity;
+                // Proximity detection for interactive glow
+                let proximityGlow = 0;
+                logos.forEach((otherLogo, otherIndex) => {
+                    if (otherIndex !== index) {
+                        const dist = logo.position.distanceTo(otherLogo.position);
+                        if (dist < 15) {
+                            proximityGlow += (15 - dist) / 15 * 0.3;
+                        }
+                    }
+                });
+                logo.userData.proximityGlow += (proximityGlow - logo.userData.proximityGlow) * 0.1;
 
-                // Subtle breathing scale
-                const scale = 1 + Math.sin(time * 0.5 + index) * 0.04;
+                // Depth-based opacity with proximity boost
+                const distance = camera.position.distanceTo(logo.position);
+                const baseOpacity = THREE.MathUtils.clamp(1 - (distance - 20) / 50, 0.45, 0.88);
+                logo.children[0].material.opacity = baseOpacity + logo.userData.proximityGlow * 0.12;
+                logo.children[0].material.emissiveIntensity = 0.12 + logo.userData.proximityGlow * 0.15;
+
+                // Dynamic breathing scale
+                const scale = 1 + Math.sin(time * 0.45 + index) * 0.05 + logo.userData.proximityGlow * 0.08;
                 logo.scale.set(scale, scale, scale);
 
-                // Update nodes
+                // Update glow layers
+                if (logo.children[1]) {
+                    logo.children[1].material.opacity = 0.15 + logo.userData.proximityGlow * 0.2;
+                }
+                if (logo.children[2]) {
+                    logo.children[2].material.opacity = 0.08 + logo.userData.proximityGlow * 0.15;
+                }
+
+                // Update nodes with proximity effect
                 if (nodes[index]) {
                     nodes[index].position.copy(logo.position);
-                    const nodePulse = 1 + Math.sin(time * 1.5 + index * 0.5) * 0.15;
+                    const nodePulse = 1 + Math.sin(time * 1.4 + index * 0.5) * 0.18 + logo.userData.proximityGlow * 0.3;
                     nodes[index].scale.set(nodePulse, nodePulse, nodePulse);
+                    nodes[index].material.opacity = 0.7 + logo.userData.proximityGlow * 0.3;
                 }
             });
 
@@ -388,8 +445,13 @@
                     positions[5] = endLogo.position.z;
                     line.geometry.attributes.position.needsUpdate = true;
 
-                    // Subtle pulsing opacity
-                    line.material.opacity = 0.12 + Math.sin(time * 0.25 + line.userData.startIdx) * 0.08;
+                    // Dynamic pulsing with distance-based brightness
+                    const startLogo = logos[line.userData.startIdx];
+                    const endLogo = logos[line.userData.endIdx];
+                    const lineDistance = startLogo.position.distanceTo(endLogo.position);
+                    const distanceFactor = THREE.MathUtils.clamp(1 - lineDistance / 35, 0.3, 1);
+                    
+                    line.material.opacity = (0.12 + Math.sin(time * 0.22 + line.userData.startIdx) * 0.1) * distanceFactor;
                 }
             });
 
@@ -413,10 +475,14 @@
                 }
             });
 
-            // Subtle light pulsing
+            // Dynamic light choreography
             glowLayers.forEach((light, idx) => {
-                const baseIntensity = idx === 0 ? 1.8 : (idx === 1 ? 1.2 : 1.0);
-                light.intensity = baseIntensity + Math.sin(time * 0.18 + idx) * 0.12;
+                const baseIntensity = idx === 0 ? 1.9 : (idx === 1 ? 1.3 : 1.1);
+                light.intensity = baseIntensity + Math.sin(time * 0.16 + idx * 1.5) * 0.15 + Math.cos(time * 0.4 + idx) * 0.08;
+                
+                // Subtle light movement
+                light.position.x += Math.sin(time * 0.2 + idx * 2) * 0.02;
+                light.position.y += Math.cos(time * 0.15 + idx * 2) * 0.02;
             });
 
             // Support elements
@@ -430,55 +496,81 @@
                 }
             });
 
-            // Smooth particle movement
+            // Enhanced particle movement with flow fields
             const positions = particlesGeometry.attributes.position.array;
             const velocities = particlesGeometry.attributes.velocity.array;
 
             for(let i = 0; i < particlesCount; i++) {
                 const i3 = i * 3;
 
+                // Apply velocity
                 positions[i3] += velocities[i3];
                 positions[i3 + 1] += velocities[i3 + 1];
                 positions[i3 + 2] += velocities[i3 + 2];
 
-                // Gentle wave
-                positions[i3 + 1] += Math.sin(time * 0.25 + i * 0.015) * 0.0015;
+                // Complex wave motion for organic feel
+                const waveX = Math.sin(time * 0.2 + i * 0.01 + positions[i3 + 2] * 0.05) * 0.002;
+                const waveY = Math.cos(time * 0.18 + i * 0.012 + positions[i3] * 0.04) * 0.002;
+                positions[i3] += waveX;
+                positions[i3 + 1] += waveY;
 
-                // Smooth respawn
-                const margin = 8;
+                // Attraction to logos (subtle)
+                logos.forEach(logo => {
+                    const dx = logo.position.x - positions[i3];
+                    const dy = logo.position.y - positions[i3 + 1];
+                    const dz = logo.position.z - positions[i3 + 2];
+                    const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                    
+                    if (dist < 8 && dist > 0.1) {
+                        const force = 0.0002 / dist;
+                        positions[i3] += dx * force;
+                        positions[i3 + 1] += dy * force;
+                        positions[i3 + 2] += dz * force;
+                    }
+                });
 
-                if (positions[i3] > 60 + margin) {
-                    positions[i3] = -60 - margin;
-                    positions[i3 + 1] = (Math.random() - 0.5) * 80;
-                    positions[i3 + 2] = -Math.random() * 70;
-                } else if (positions[i3] < -60 - margin) {
-                    positions[i3] = 60 + margin;
-                    positions[i3 + 1] = (Math.random() - 0.5) * 80;
-                    positions[i3 + 2] = -Math.random() * 70;
+                // Smooth respawn with better coverage
+                const margin = 10;
+
+                if (positions[i3] > 65 + margin) {
+                    positions[i3] = -65 - margin;
+                    positions[i3 + 1] = (Math.random() - 0.5) * 90;
+                    positions[i3 + 2] = -Math.random() * 75;
+                } else if (positions[i3] < -65 - margin) {
+                    positions[i3] = 65 + margin;
+                    positions[i3 + 1] = (Math.random() - 0.5) * 90;
+                    positions[i3 + 2] = -Math.random() * 75;
                 }
 
-                if (positions[i3 + 1] > 40 + margin) {
-                    positions[i3 + 1] = -40 - margin;
-                    positions[i3] = (Math.random() - 0.5) * 120;
-                    positions[i3 + 2] = -Math.random() * 70;
-                } else if (positions[i3 + 1] < -40 - margin) {
-                    positions[i3 + 1] = 40 + margin;
-                    positions[i3] = (Math.random() - 0.5) * 120;
-                    positions[i3 + 2] = -Math.random() * 70;
+                if (positions[i3 + 1] > 45 + margin) {
+                    positions[i3 + 1] = -45 - margin;
+                    positions[i3] = (Math.random() - 0.5) * 130;
+                    positions[i3 + 2] = -Math.random() * 75;
+                } else if (positions[i3 + 1] < -45 - margin) {
+                    positions[i3 + 1] = 45 + margin;
+                    positions[i3] = (Math.random() - 0.5) * 130;
+                    positions[i3 + 2] = -Math.random() * 75;
                 }
 
-                if (positions[i3 + 2] > 8) {
-                    positions[i3 + 2] = -70;
-                    positions[i3] = (Math.random() - 0.5) * 120;
-                    positions[i3 + 1] = (Math.random() - 0.5) * 80;
+                if (positions[i3 + 2] > 10) {
+                    positions[i3 + 2] = -75;
+                    positions[i3] = (Math.random() - 0.5) * 130;
+                    positions[i3 + 1] = (Math.random() - 0.5) * 90;
                 }
             }
 
             particlesGeometry.attributes.position.needsUpdate = true;
 
-            // Gentle camera parallax
-            camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.015;
-            camera.position.y += (mouseY * 1.5 - camera.position.y) * 0.015;
+            // Dynamic camera movement
+            cameraTime += delta * 0.2;
+            const cameraOffsetX = Math.sin(cameraTime * 0.3) * 1.5;
+            const cameraOffsetY = Math.cos(cameraTime * 0.25) * 1.2;
+            const cameraOffsetZ = Math.sin(cameraTime * 0.15) * 2;
+
+            // Smooth parallax + subtle automated movement
+            camera.position.x += (mouseX * 2 + cameraOffsetX - camera.position.x) * 0.018;
+            camera.position.y += (mouseY * 2 + cameraOffsetY - camera.position.y) * 0.018;
+            camera.position.z += (cameraBaseZ + cameraOffsetZ - camera.position.z) * 0.01;
 
             camera.lookAt(0, 0, 0);
             renderer.render(scene, camera);

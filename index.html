@@ -255,6 +255,16 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Force hide loading screen if Three.js fails or takes too long
+        setTimeout(() => {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
+                console.warn('Force hiding loading screen - possible Three.js load failure');
+                loadingScreen.classList.add('hidden');
+            }
+        }, 5000);
+    </script>
     <script src="js/app.js"></script>
 </body>
 </html>

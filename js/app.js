@@ -1,4 +1,13 @@
 // Three.js Enhanced 3D Background
+        // Check if THREE is loaded
+        if (typeof THREE === 'undefined') {
+            console.error('THREE.js failed to load');
+            // Hide loading screen immediately
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) loadingScreen.classList.add('hidden');
+            return;
+        }
+
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);

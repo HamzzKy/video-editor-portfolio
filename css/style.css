@@ -18,7 +18,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #0d0d0d;
+            background: #0a0a0a;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -43,7 +43,7 @@
             width: 100%;
             height: 100%;
             border: 3px solid transparent;
-            border-top-color: #4ecdc4;
+            border-top-color: #ffd700;
             border-radius: 50%;
             animation: spin 1.5s linear infinite;
         }
@@ -53,7 +53,7 @@
             height: 85%;
             top: 7.5%;
             left: 7.5%;
-            border-top-color: #ff6b6b;
+            border-top-color: #ffed4e;
             animation-duration: 2s;
             animation-direction: reverse;
         }
@@ -63,7 +63,7 @@
             height: 70%;
             top: 15%;
             left: 15%;
-            border-top-color: #45b7d1;
+            border-top-color: #ffa500;
             animation-duration: 2.5s;
         }
 
@@ -74,7 +74,7 @@
             transform: translate(-50%, -50%);
             font-size: 48px;
             font-weight: bold;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: pulse 2s ease-in-out infinite;
@@ -83,7 +83,7 @@
         .loading-text {
             margin-top: 40px;
             font-size: 18px;
-            color: #8899aa;
+            color: #999;
             animation: fadeInOut 1.5s ease-in-out infinite;
         }
 
@@ -91,14 +91,14 @@
             margin-top: 20px;
             width: 300px;
             height: 3px;
-            background: rgba(78, 205, 196, 0.2);
+            background: rgba(255, 215, 0, 0.2);
             border-radius: 10px;
             overflow: hidden;
         }
 
         .loading-bar {
             height: 100%;
-            background: linear-gradient(90deg, #4ecdc4, #ff6b6b);
+            background: linear-gradient(90deg, #ffd700, #ffed4e);
             width: 0%;
             animation: loadProgress 2s ease-out forwards;
         }
@@ -148,7 +148,7 @@
         .logo {
             font-size: 24px;
             font-weight: bold;
-            background: linear-gradient(45deg, #4ecdc4, #ffffff);
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -168,7 +168,7 @@
         }
 
         .nav-links a:hover {
-            color: #4ecdc4;
+            color: #ffd700;
         }
 
         .menu-toggle {
@@ -185,7 +185,7 @@
         .menu-toggle span {
             width: 25px;
             height: 3px;
-            background: #4ecdc4;
+            background: #ffd700;
             border-radius: 3px;
             transition: all 0.3s ease;
         }
@@ -228,7 +228,7 @@
         }
 
         .gradient-text {
-            background: linear-gradient(45deg, #4ecdc4, #ffffff, #45b7d1);
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffa500);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-size: 200% 200%;
@@ -263,9 +263,9 @@
             padding: 15px 40px;
             font-size: 18px;
             background: transparent;
-            border: 2px solid #4ecdc4;
+            border: 2px solid #ffd700;
             border-radius: 8px;
-            color: #4ecdc4;
+            color: #ffd700;
             cursor: pointer;
             transition: all 0.3s ease;
             animation: fadeInUp 1s ease 0.6s both;
@@ -275,10 +275,10 @@
         }
 
         .cta-button:hover {
-            background: #4ecdc4;
-            color: #0d0d0d;
+            background: #ffd700;
+            color: #0a0a0a;
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
         }
 
         .section-title {
@@ -302,27 +302,28 @@
             overflow: hidden;
             cursor: pointer;
             transition: transform 0.3s;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 2px solid rgba(255, 215, 0, 0.3);
         }
 
         .portfolio-item:nth-child(2) {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
         }
 
         .portfolio-item:nth-child(3) {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
         }
 
         .portfolio-item:nth-child(4) {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            background: linear-gradient(135deg, #333333 0%, #1a1a1a 100%);
         }
 
         .portfolio-item:nth-child(5) {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            background: linear-gradient(135deg, #2d2d2d 0%, #262626 100%);
         }
 
         .portfolio-item:nth-child(6) {
-            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+            background: linear-gradient(135deg, #262626 0%, #1a1a1a 100%);
         }
 
         .portfolio-item img.thumbnail {
@@ -363,7 +364,7 @@
             justify-content: space-between;
             padding: 25px;
             position: relative;
-            border: 1px solid rgba(78, 205, 196, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
 
         .tiktok-card .badge {
@@ -384,7 +385,7 @@
         .tiktok-card .badge svg {
             width: 16px;
             height: 16px;
-            fill: #4ecdc4;
+            fill: #ffd700;
         }
 
         .tiktok-card .play-overlay {
@@ -394,27 +395,27 @@
             transform: translate(-50%, -50%);
             width: 65px;
             height: 65px;
-            background: rgba(78, 205, 196, 0.9);
+            background: rgba(255, 215, 0, 0.9);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             transition: all 0.3s ease;
-            box-shadow: 0 0 25px rgba(78, 205, 196, 0.6);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
             z-index: 2;
         }
 
         .tiktok-card .play-overlay svg {
             width: 26px;
             height: 26px;
-            fill: #0d0d0d;
+            fill: #0a0a0a;
             margin-left: 3px;
         }
 
         .portfolio-item:hover .play-overlay {
             transform: translate(-50%, -50%) scale(1.15);
-            background: #ff6b6b;
-            box-shadow: 0 0 35px rgba(255, 107, 107, 0.8);
+            background: #ffed4e;
+            box-shadow: 0 0 35px rgba(255, 237, 78, 0.8);
         }
 
         .portfolio-item:hover .play-overlay svg {
@@ -433,7 +434,7 @@
 
         .tiktok-card .card-info p {
             font-size: 13px;
-            color: #8899aa;
+            color: #999;
         }
 
         .video-modal {
@@ -516,8 +517,8 @@
             align-items: center;
             justify-content: center;
             padding: 40px 30px;
-            background: rgba(78, 205, 196, 0.05);
-            border: 2px solid #4ecdc4;
+            background: rgba(255, 215, 0, 0.05);
+            border: 2px solid #ffd700;
             border-radius: 15px;
             text-decoration: none;
             transition: all 0.3s ease;
@@ -527,7 +528,7 @@
         .contact-card svg {
             width: 60px;
             height: 60px;
-            fill: #4ecdc4;
+            fill: #ffd700;
             margin-bottom: 20px;
             transition: all 0.3s ease;
         }
@@ -540,25 +541,25 @@
         }
 
         .contact-card p {
-            color: #8899aa;
+            color: #999;
             font-size: 14px;
             transition: color 0.3s ease;
         }
 
         .contact-card:hover {
-            background: rgba(78, 205, 196, 0.1);
+            background: rgba(255, 215, 0, 0.1);
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(78, 205, 196, 0.3);
-            border-color: #4ecdc4;
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
+            border-color: #ffd700;
         }
 
         .contact-card:hover svg {
             transform: scale(1.1);
-            fill: #4ecdc4;
+            fill: #ffd700;
         }
 
         .contact-card:hover h3 {
-            color: #4ecdc4;
+            color: #ffd700;
         }
 
         .contact-card:hover p {
@@ -589,9 +590,9 @@
             width: 100%;
             padding: 15px;
             background: transparent;
-            border: 2px solid #4ecdc4;
+            border: 2px solid #ffd700;
             border-radius: 8px;
-            color: #4ecdc4;
+            color: #ffd700;
             font-size: 18px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -601,10 +602,10 @@
         }
 
         .submit-btn:hover {
-            background: #4ecdc4;
-            color: #0d0d0d;
+            background: #ffd700;
+            color: #0a0a0a;
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
         }
 
         .social-media {
@@ -621,9 +622,9 @@
             justify-content: center;
             width: 50px;
             height: 50px;
-            border: 2px solid #4ecdc4;
+            border: 2px solid #ffd700;
             border-radius: 8px;
-            color: #4ecdc4;
+            color: #ffd700;
             text-decoration: none;
             font-size: 24px;
             transition: all 0.3s ease;
@@ -634,26 +635,26 @@
         .social-link svg {
             width: 28px;
             height: 28px;
-            fill: #4ecdc4;
+            fill: #ffd700;
             transition: fill 0.3s ease;
             position: relative;
             z-index: 1;
         }
 
         .social-link:hover {
-            background: #4ecdc4;
+            background: #ffd700;
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(78, 205, 196, 0.4);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.5);
         }
 
         .social-link:hover svg {
-            fill: #0d0d0d;
+            fill: #0a0a0a;
         }
 
         .social-text {
             text-align: center;
             margin-top: 35px;
-            color: #8899aa;
+            color: #999;
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -670,9 +671,9 @@
         .filter-btn {
             padding: 12px 30px;
             background: transparent;
-            border: 2px solid #4ecdc4;
+            border: 2px solid #ffd700;
             border-radius: 8px;
-            color: #4ecdc4;
+            color: #ffd700;
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
@@ -682,13 +683,13 @@
         }
 
         .filter-btn:hover {
-            background: rgba(78, 205, 196, 0.1);
+            background: rgba(255, 215, 0, 0.1);
             transform: translateY(-2px);
         }
 
         .filter-btn.active {
-            background: #4ecdc4;
-            color: #0d0d0d;
+            background: #ffd700;
+            color: #0a0a0a;
         }
 
         .portfolio-item.hidden {
@@ -705,8 +706,8 @@
         }
 
         .client-card {
-            background: linear-gradient(135deg, rgba(78, 205, 196, 0.05) 0%, rgba(255, 107, 107, 0.05) 100%);
-            border: 2px solid rgba(78, 205, 196, 0.2);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05) 0%, rgba(255, 165, 0, 0.05) 100%);
+            border: 2px solid rgba(255, 215, 0, 0.3);
             border-radius: 20px;
             padding: 40px 30px;
             text-align: center;
@@ -722,7 +723,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(78, 205, 196, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
             transition: left 0.6s ease;
         }
 
@@ -732,8 +733,8 @@
 
         .client-card:hover {
             transform: translateY(-10px);
-            border-color: #4ecdc4;
-            box-shadow: 0 15px 40px rgba(78, 205, 196, 0.3);
+            border-color: #ffd700;
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
         }
 
         .client-avatar {
@@ -741,14 +742,14 @@
             height: 120px;
             border-radius: 50%;
             margin: 0 auto 25px;
-            background: linear-gradient(135deg, #4ecdc4, #ff6b6b);
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 48px;
             font-weight: bold;
-            color: #0d0d0d;
-            border: 4px solid rgba(78, 205, 196, 0.3);
+            color: #0a0a0a;
+            border: 4px solid rgba(255, 215, 0, 0.3);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -763,7 +764,7 @@
 
         .client-card:hover .client-avatar {
             transform: scale(1.1) rotate(5deg);
-            border-color: #4ecdc4;
+            border-color: #ffd700;
         }
 
         .client-name {
@@ -778,11 +779,11 @@
             align-items: center;
             gap: 8px;
             padding: 8px 16px;
-            background: rgba(78, 205, 196, 0.1);
-            border: 1px solid rgba(78, 205, 196, 0.3);
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
             border-radius: 20px;
             font-size: 14px;
-            color: #4ecdc4;
+            color: #ffd700;
             margin-bottom: 15px;
         }
 
@@ -796,7 +797,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: #4ecdc4;
+            color: #ffd700;
             text-decoration: none;
             font-size: 15px;
             transition: all 0.3s ease;
@@ -804,7 +805,7 @@
         }
 
         .client-link:hover {
-            color: #ff6b6b;
+            color: #ffed4e;
             transform: translateX(5px);
         }
 
@@ -833,7 +834,7 @@
                 max-height: 0;
                 overflow: hidden;
                 transition: max-height 0.3s ease;
-                border-bottom: 1px solid rgba(78, 205, 196, 0.2);
+                border-bottom: 1px solid rgba(255, 215, 0, 0.2);
             }
 
             .nav-links.active {
@@ -841,7 +842,7 @@
             }
 
             .nav-links li {
-                border-bottom: 1px solid rgba(78, 205, 196, 0.1);
+                border-bottom: 1px solid rgba(255, 215, 0, 0.1);
             }
 
             .nav-links a {
@@ -881,18 +882,18 @@
         .scroll-indicator::before {
             content: '↓';
             font-size: 32px;
-            color: #4ecdc4;
+            color: #ffd700;
         }
 
         .site-footer {
             background: rgba(10, 10, 10, 0.9);
-            border-top: 1px solid rgba(78, 205, 196, 0.2);
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
             padding: 40px 50px;
             text-align: center;
         }
 
         .site-footer p {
-            color: #8899aa;
+            color: #999;
             font-size: 14px;
             margin-bottom: 15px;
         }
@@ -905,7 +906,7 @@
         }
 
         .footer-links a {
-            color: #4ecdc4;
+            color: #ffd700;
             text-decoration: none;
             font-size: 14px;
             transition: color 0.3s ease;

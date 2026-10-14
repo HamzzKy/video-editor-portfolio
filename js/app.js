@@ -15,49 +15,49 @@
         container.appendChild(renderer.domElement);
 
         // Clean dark background
-        scene.background = new THREE.Color(0x0d0d0d);
-        scene.fog = new THREE.FogExp2(0x0d0d0d, 0.006);
+        scene.background = new THREE.Color(0x0a0a0a);
+        scene.fog = new THREE.FogExp2(0x0a0a0a, 0.004);
 
-        // Consistent ambient lighting for all logos
-        const ambientLight = new THREE.AmbientLight(0x6688aa, 0.6);
+        // Warm ambient lighting
+        const ambientLight = new THREE.AmbientLight(0xffaa55, 0.5);
         scene.add(ambientLight);
 
-        // Main key light for uniform illumination
-        const keyLight = new THREE.DirectionalLight(0x88aacc, 1.0);
+        // Main key light
+        const keyLight = new THREE.DirectionalLight(0xffdd88, 0.8);
         keyLight.position.set(0, 20, 30);
         scene.add(keyLight);
 
-        // Backlights for depth and glow
-        const backLight1 = new THREE.PointLight(0x4ecdc4, 2.0, 120);
-        backLight1.position.set(0, 0, -45);
+        // Golden backlights
+        const backLight1 = new THREE.PointLight(0xffd700, 1.8, 100);
+        backLight1.position.set(0, 0, -40);
         scene.add(backLight1);
 
-        const backLight2 = new THREE.PointLight(0x6699bb, 1.5, 100);
-        backLight2.position.set(-25, 10, -40);
+        const backLight2 = new THREE.PointLight(0xffed4e, 1.2, 80);
+        backLight2.position.set(-20, 10, -35);
         scene.add(backLight2);
 
-        const backLight3 = new THREE.PointLight(0xff6b6b, 1.2, 90);
-        backLight3.position.set(25, -10, -40);
+        const backLight3 = new THREE.PointLight(0xffa500, 1.0, 75);
+        backLight3.position.set(20, -10, -35);
         scene.add(backLight3);
 
-        // Rim lights for consistent edge definition
-        const rimLight1 = new THREE.DirectionalLight(0x99bbcc, 0.8);
-        rimLight1.position.set(-30, 15, -15);
+        // Rim lights
+        const rimLight1 = new THREE.DirectionalLight(0xffcc66, 0.6);
+        rimLight1.position.set(-25, 12, -12);
         scene.add(rimLight1);
 
-        const rimLight2 = new THREE.DirectionalLight(0x4ecdc4, 0.6);
-        rimLight2.position.set(30, -10, -15);
+        const rimLight2 = new THREE.DirectionalLight(0xffd700, 0.5);
+        rimLight2.position.set(25, -8, -12);
         scene.add(rimLight2);
 
         const glowLayers = [backLight1, backLight2, backLight3];
 
-        // Software logos spread across scene like before
+        // Software logos - cleaner positioning
         const softwareLogos = [
-{ name: 'Premiere Pro', image: 'logo/pr-new.png', pos: [-25, 8, -20], scale: 7 },
-             { name: 'After Effects', image: 'logo/ae-new.png', pos: [28, -5, -25], scale: 6.5 },
-             { name: 'CapCut', image: 'logo/Capcut-icon.png', pos: [-30, -12, -15], scale: 5.5 },
-             { name: 'Photoshop', image: 'logo/ps-new.png', pos: [25, 15, -30], scale: 6.8 },
-             { name: 'DaVinci', image: 'logo/davinci-new.png', pos: [-18, -18, -35], scale: 6 }
+{ name: 'Premiere Pro', image: 'logo/pr-new.png', pos: [-20, 6, -25], scale: 6 },
+             { name: 'After Effects', image: 'logo/ae-new.png', pos: [22, -4, -28], scale: 5.5 },
+             { name: 'CapCut', image: 'logo/Capcut-icon.png', pos: [-24, -10, -20], scale: 5 },
+             { name: 'Photoshop', image: 'logo/ps-new.png', pos: [20, 12, -32], scale: 6 },
+             { name: 'DaVinci', image: 'logo/davinci-new.png', pos: [-15, -15, -30], scale: 5.5 }
         ];
 
         // Create volumetric logo objects with depth
@@ -72,12 +72,12 @@
             const material = new THREE.MeshStandardMaterial({
                 map: texture,
                 transparent: true,
-                opacity: 0.9,
+                opacity: 0.85,
                 side: THREE.DoubleSide,
-                metalness: 0.3,
-                roughness: 0.4,
-                emissive: 0x4ecdc4,
-                emissiveIntensity: 0.1
+                metalness: 0.2,
+                roughness: 0.5,
+                emissive: 0xffd700,
+                emissiveIntensity: 0.08
             });
 
             const mesh = new THREE.Mesh(geometry, material);
@@ -85,24 +85,16 @@
             mesh.receiveShadow = true;
             group.add(mesh);
 
-            // Back layer for depth effect
-            const backMaterial = material.clone();
-            backMaterial.opacity = 0.3;
-            backMaterial.emissiveIntensity = 0.05;
-            const backMesh = new THREE.Mesh(geometry, backMaterial);
-            backMesh.position.z = -0.3;
-            group.add(backMesh);
-
-            // Rim glow effect
-            const glowGeometry = new THREE.PlaneGeometry(scale * 1.1, scale * 1.1);
+            // Subtle glow effect
+            const glowGeometry = new THREE.PlaneGeometry(scale * 1.08, scale * 1.08);
             const glowMaterial = new THREE.MeshBasicMaterial({
-                color: 0x4ecdc4,
+                color: 0xffd700,
                 transparent: true,
-                opacity: 0.1,
+                opacity: 0.12,
                 side: THREE.DoubleSide
             });
             const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
-            glowMesh.position.z = -0.5;
+            glowMesh.position.z = -0.2;
             group.add(glowMesh);
 
             group.position.set(position[0], position[1], position[2]);
@@ -117,40 +109,35 @@
                 baseX: software.pos[0],
                 baseY: software.pos[1],
                 baseZ: software.pos[2],
-                floatSpeed: 0.4 + Math.random() * 0.5,
-                floatRangeY: 3 + Math.random() * 2,
-                floatRangeX: 1.5 + Math.random() * 1,
-                driftSpeedX: (Math.random() - 0.5) * 0.015,
-                driftSpeedZ: (Math.random() - 0.5) * 0.01,
-                rotSpeedX: (Math.random() - 0.5) * 0.003,
-                rotSpeedY: (Math.random() - 0.5) * 0.004,
-                rotSpeedZ: (Math.random() - 0.5) * 0.002,
-                phaseOffset: index * 1.5,
-                orbitRadius: 2 + Math.random() * 3,
-                orbitSpeed: 0.2 + Math.random() * 0.3
+                floatSpeed: 0.3 + Math.random() * 0.3,
+                floatRangeY: 2 + Math.random() * 1.5,
+                floatRangeX: 1 + Math.random() * 0.8,
+                rotSpeedX: (Math.random() - 0.5) * 0.002,
+                rotSpeedY: (Math.random() - 0.5) * 0.003,
+                rotSpeedZ: (Math.random() - 0.5) * 0.0015,
+                phaseOffset: index * 1.2,
+                orbitRadius: 1.5 + Math.random() * 2,
+                orbitSpeed: 0.15 + Math.random() * 0.2
             };
 
             logos.push(logo);
             scene.add(logo);
         });
 
-        // More connection lines between logos
+        // Connection lines - fewer for cleaner look
         const connectionLines = [];
         const connectionMaterial = new THREE.LineBasicMaterial({
-            color: 0x4ecdc4,
+            color: 0xffd700,
             transparent: true,
-            opacity: 0.35,
+            opacity: 0.25,
             linewidth: 1
         });
 
-        // More connections for better network effect
+        // Strategic connections only
         const connections = [
             [0, 1], // Premiere to After Effects
             [0, 2], // Premiere to CapCut
-            [0, 4], // Premiere to DaVinci
             [1, 3], // After Effects to Photoshop
-            [1, 4], // After Effects to DaVinci
-            [2, 3], // CapCut to Photoshop
             [2, 4], // CapCut to DaVinci
             [3, 4]  // Photoshop to DaVinci
         ];
@@ -164,48 +151,48 @@
             line.userData = {
                 startIdx,
                 endIdx,
-                baseOpacity: 0.3 + Math.random() * 0.3
+                baseOpacity: 0.2 + Math.random() * 0.15
             };
             connectionLines.push(line);
             scene.add(line);
         });
 
-        // Glowing nodes at logo positions
-        const nodeGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+        // Subtle glowing nodes
+        const nodeGeometry = new THREE.SphereGeometry(0.25, 12, 12);
         const nodes = [];
 
         logos.forEach((logo, index) => {
             const nodeMat = new THREE.MeshBasicMaterial({
-                color: 0x4ecdc4,
+                color: 0xffd700,
                 transparent: true,
-                opacity: 0.8
+                opacity: 0.7
             });
             const node = new THREE.Mesh(nodeGeometry, nodeMat);
             node.userData = { logoIndex: index };
             nodes.push(node);
             scene.add(node);
 
-            // Add glow sphere around node
-            const glowGeo = new THREE.SphereGeometry(0.6, 16, 16);
+            // Subtle glow
+            const glowGeo = new THREE.SphereGeometry(0.45, 12, 12);
             const glowMat = new THREE.MeshBasicMaterial({
-                color: 0x4ecdc4,
+                color: 0xffd700,
                 transparent: true,
-                opacity: 0.2,
+                opacity: 0.15,
                 side: THREE.BackSide
             });
             const glowSphere = new THREE.Mesh(glowGeo, glowMat);
             node.add(glowSphere);
         });
 
-        // Energy particles moving along lines
+        // Subtle energy particles
         const energyParticles = [];
         connections.forEach((conn, idx) => {
-            if (idx % 2 === 0) { // Only on some lines
-                const particleGeo = new THREE.SphereGeometry(0.2, 8, 8);
+            if (idx % 2 === 0) {
+                const particleGeo = new THREE.SphereGeometry(0.15, 8, 8);
                 const particleMat = new THREE.MeshBasicMaterial({
-                    color: idx % 3 === 0 ? 0xff6b6b : 0x4ecdc4,
+                    color: 0xffd700,
                     transparent: true,
-                    opacity: 0.9
+                    opacity: 0.8
                 });
                 const particle = new THREE.Mesh(particleGeo, particleMat);
                 particle.userData = {
@@ -217,78 +204,75 @@
             }
         });
 
-        // Supporting geometric elements
+        // Minimal geometric elements
         const supportElements = [];
 
-        // Glass panels
-        for(let i = 0; i < 3; i++) {
-            const panelGeo = new THREE.PlaneGeometry(6, 10);
+        // Subtle glass panels
+        for(let i = 0; i < 2; i++) {
+            const panelGeo = new THREE.PlaneGeometry(5, 8);
             const panelMat = new THREE.MeshPhysicalMaterial({
-                color: 0x4ecdc4,
+                color: 0xffd700,
                 transparent: true,
-                opacity: 0.08,
-                metalness: 0.9,
-                roughness: 0.1,
+                opacity: 0.05,
+                metalness: 0.8,
+                roughness: 0.2,
                 side: THREE.DoubleSide
             });
             const panel = new THREE.Mesh(panelGeo, panelMat);
             panel.position.set(
-                (Math.random() - 0.5) * 50,
-                (Math.random() - 0.5) * 40,
-                -40 - Math.random() * 20
+                (Math.random() - 0.5) * 45,
+                (Math.random() - 0.5) * 35,
+                -35 - Math.random() * 15
             );
             panel.rotation.y = Math.random() * Math.PI;
             panel.userData = {
-                rotSpeed: (Math.random() - 0.5) * 0.001
+                rotSpeed: (Math.random() - 0.5) * 0.0008
             };
             supportElements.push(panel);
             scene.add(panel);
         }
 
-        // Wireframe cubes
-        for(let i = 0; i < 4; i++) {
-            const size = 2 + Math.random() * 3;
+        // Wireframe cubes - fewer and smaller
+        for(let i = 0; i < 3; i++) {
+            const size = 1.5 + Math.random() * 2;
             const cubeGeo = new THREE.BoxGeometry(size, size, size);
             const cubeMat = new THREE.MeshBasicMaterial({
-                color: i % 2 === 0 ? 0x4ecdc4 : 0xff6b6b,
+                color: 0xffd700,
                 wireframe: true,
                 transparent: true,
-                opacity: 0.15
+                opacity: 0.12
             });
             const cube = new THREE.Mesh(cubeGeo, cubeMat);
             cube.position.set(
-                (Math.random() - 0.5) * 60,
                 (Math.random() - 0.5) * 50,
-                -20 - Math.random() * 30
+                (Math.random() - 0.5) * 40,
+                -25 - Math.random() * 25
             );
             cube.userData = {
-                rotSpeedX: (Math.random() - 0.5) * 0.003,
-                rotSpeedY: (Math.random() - 0.5) * 0.003
+                rotSpeedX: (Math.random() - 0.5) * 0.002,
+                rotSpeedY: (Math.random() - 0.5) * 0.002
             };
             supportElements.push(cube);
             scene.add(cube);
         }
 
-        // Dense particles covering entire screen - much more for full coverage
+        // Elegant particle system
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 2500;
+        const particlesCount = 1800;
         const posArray = new Float32Array(particlesCount * 3);
         const sizeArray = new Float32Array(particlesCount);
         const velocityArray = new Float32Array(particlesCount * 3);
 
-        // Fill entire viewport space with dense particles
         for(let i = 0; i < particlesCount; i++) {
-            // Full coverage - extra wide to cover all screen sizes
-            posArray[i * 3] = (Math.random() - 0.5) * 150;
-            posArray[i * 3 + 1] = (Math.random() - 0.5) * 100;
-            posArray[i * 3 + 2] = -Math.random() * 80;
+            posArray[i * 3] = (Math.random() - 0.5) * 120;
+            posArray[i * 3 + 1] = (Math.random() - 0.5) * 80;
+            posArray[i * 3 + 2] = -Math.random() * 70;
 
-            sizeArray[i] = Math.random() * 0.07 + 0.03;
+            sizeArray[i] = Math.random() * 0.06 + 0.02;
 
-            // Random velocity for continuous movement
-            velocityArray[i * 3] = (Math.random() - 0.5) * 0.01;
-            velocityArray[i * 3 + 1] = (Math.random() - 0.5) * 0.01;
-            velocityArray[i * 3 + 2] = Math.random() * 0.02 + 0.01;
+            velocityArray[i * 3] = (Math.random() - 0.5) * 0.008;
+            velocityArray[i * 3 + 1] = (Math.random() - 0.5) * 0.008;
+            velocityArray[i * 3 + 2] = Math.random() * 0.015 + 0.008;
         }
 
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
@@ -296,10 +280,10 @@
         particlesGeometry.setAttribute('velocity', new THREE.BufferAttribute(velocityArray, 3));
 
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.05,
-            color: 0xdddddd,
+            size: 0.04,
+            color: 0xffdd88,
             transparent: true,
-            opacity: 0.6,
+            opacity: 0.5,
             blending: THREE.AdditiveBlending,
             sizeAttenuation: true
         });
@@ -346,53 +330,45 @@
             mouseX += (targetMouseX - mouseX) * 0.03;
             mouseY += (targetMouseY - mouseY) * 0.03;
 
-            // Animate logos with dynamic orbital motion
+            // Smoother logo animation
             logos.forEach((logo, index) => {
-                // Solar system orbital rotation around center
-                const solarOrbitAngle = time * 0.08 + logo.userData.phaseOffset; // Slow orbit speed
-                const solarRadiusX = 30; // Distance from center (increased)
-                const solarRadiusZ = 15; // Depth (increased)
+                // Gentle orbital motion
+                const orbitAngle = time * 0.06 + logo.userData.phaseOffset;
+                const orbitRadiusX = 25;
+                const orbitRadiusZ = 12;
                 
-                const solarOrbitX = Math.cos(solarOrbitAngle) * solarRadiusX;
-                const solarOrbitZ = Math.sin(solarOrbitAngle) * solarRadiusZ;
+                const orbitX = Math.cos(orbitAngle) * orbitRadiusX;
+                const orbitZ = Math.sin(orbitAngle) * orbitRadiusZ;
                 
-                // Vertical floating
+                // Smooth vertical float
                 const floatY = Math.sin(time * logo.userData.floatSpeed + logo.userData.phaseOffset) * logo.userData.floatRangeY;
 
-                // Horizontal wave drift (smaller now)
-                const driftX = Math.sin(time * logo.userData.floatSpeed * 0.7 + logo.userData.phaseOffset) * (logo.userData.floatRangeX * 0.3);
+                // Subtle horizontal drift
+                const driftX = Math.sin(time * logo.userData.floatSpeed * 0.6 + logo.userData.phaseOffset) * logo.userData.floatRangeX;
 
-                // Small local circular orbital motion
-                const orbitAngle = time * logo.userData.orbitSpeed + logo.userData.phaseOffset;
-                const orbitX = Math.cos(orbitAngle) * logo.userData.orbitRadius;
-                const orbitZ = Math.sin(orbitAngle) * (logo.userData.orbitRadius * 0.5);
-
-                // Combine solar system orbit + local movement
-                logo.position.x = solarOrbitX + driftX + orbitX;
+                // Final position
+                logo.position.x = orbitX + driftX;
                 logo.position.y = logo.userData.baseY + floatY;
-                logo.position.z = logo.userData.baseZ + solarOrbitZ + orbitZ;
+                logo.position.z = logo.userData.baseZ + orbitZ;
 
-                // Dynamic 3D rotation
+                // Gentle rotation
                 logo.rotation.x += logo.userData.rotSpeedX;
                 logo.rotation.y += logo.userData.rotSpeedY;
                 logo.rotation.z += logo.userData.rotSpeedZ;
 
-            // Depth-based opacity
+                // Smooth opacity based on depth
                 const distance = camera.position.distanceTo(logo.position);
-                const opacity = THREE.MathUtils.clamp(1 - (distance - 20) / 40, 0.3, 1);
-                logo.children[0].material.opacity = opacity * 0.9;
+                const opacity = THREE.MathUtils.clamp(1 - (distance - 20) / 45, 0.4, 0.85);
+                logo.children[0].material.opacity = opacity;
 
-
-
-                // Dynamic scale with breathing
-                const scale = 1 + Math.sin(time * 0.6 + index) * 0.05;
+                // Subtle breathing scale
+                const scale = 1 + Math.sin(time * 0.5 + index) * 0.04;
                 logo.scale.set(scale, scale, scale);
 
-                // Update node positions to follow logos
+                // Update nodes
                 if (nodes[index]) {
                     nodes[index].position.copy(logo.position);
-                    // Node pulse
-                    const nodePulse = 1 + Math.sin(time * 2 + index * 0.5) * 0.2;
+                    const nodePulse = 1 + Math.sin(time * 1.5 + index * 0.5) * 0.15;
                     nodes[index].scale.set(nodePulse, nodePulse, nodePulse);
                 }
             });
@@ -412,14 +388,14 @@
                     positions[5] = endLogo.position.z;
                     line.geometry.attributes.position.needsUpdate = true;
 
-                    // Subtle opacity
-                    line.material.opacity = 0.15 + Math.sin(time * 0.3 + line.userData.startIdx) * 0.05;
+                    // Subtle pulsing opacity
+                    line.material.opacity = 0.12 + Math.sin(time * 0.25 + line.userData.startIdx) * 0.08;
                 }
             });
 
-            // Animate energy particles
+            // Smooth energy particles
             energyParticles.forEach(particle => {
-                particle.userData.progress += delta * 0.1;
+                particle.userData.progress += delta * 0.08;
                 if (particle.userData.progress > 1) {
                     particle.userData.progress = 0;
                 }
@@ -432,15 +408,15 @@
                     if (startLogo && endLogo) {
                         const t = particle.userData.progress;
                         particle.position.lerpVectors(startLogo.position, endLogo.position, t);
-                        particle.material.opacity = Math.sin(t * Math.PI) * 0.6;
+                        particle.material.opacity = Math.sin(t * Math.PI) * 0.5;
                     }
                 }
             });
 
-            // Minimal light variation
+            // Subtle light pulsing
             glowLayers.forEach((light, idx) => {
-                const baseIntensity = idx === 0 ? 1.5 : 0.8;
-                light.intensity = baseIntensity + Math.sin(time * 0.2 + idx) * 0.1;
+                const baseIntensity = idx === 0 ? 1.8 : (idx === 1 ? 1.2 : 1.0);
+                light.intensity = baseIntensity + Math.sin(time * 0.18 + idx) * 0.12;
             });
 
             // Support elements
@@ -454,59 +430,55 @@
                 }
             });
 
-            // Continuous particle movement with aggressive respawn
+            // Smooth particle movement
             const positions = particlesGeometry.attributes.position.array;
             const velocities = particlesGeometry.attributes.velocity.array;
 
             for(let i = 0; i < particlesCount; i++) {
                 const i3 = i * 3;
 
-                // Apply velocity
                 positions[i3] += velocities[i3];
                 positions[i3 + 1] += velocities[i3 + 1];
                 positions[i3 + 2] += velocities[i3 + 2];
 
-                // Add gentle wave motion
-                positions[i3 + 1] += Math.sin(time * 0.3 + i * 0.02) * 0.002;
+                // Gentle wave
+                positions[i3 + 1] += Math.sin(time * 0.25 + i * 0.015) * 0.0015;
 
-                // Aggressive respawn to maintain full coverage
-                const respawnMargin = 10;
+                // Smooth respawn
+                const margin = 8;
 
-                // X bounds - respawn from opposite side
-                if (positions[i3] > 75 + respawnMargin) {
-                    positions[i3] = -75 - respawnMargin;
-                    positions[i3 + 1] = (Math.random() - 0.5) * 100;
-                    positions[i3 + 2] = -Math.random() * 80;
-                } else if (positions[i3] < -75 - respawnMargin) {
-                    positions[i3] = 75 + respawnMargin;
-                    positions[i3 + 1] = (Math.random() - 0.5) * 100;
-                    positions[i3 + 2] = -Math.random() * 80;
+                if (positions[i3] > 60 + margin) {
+                    positions[i3] = -60 - margin;
+                    positions[i3 + 1] = (Math.random() - 0.5) * 80;
+                    positions[i3 + 2] = -Math.random() * 70;
+                } else if (positions[i3] < -60 - margin) {
+                    positions[i3] = 60 + margin;
+                    positions[i3 + 1] = (Math.random() - 0.5) * 80;
+                    positions[i3 + 2] = -Math.random() * 70;
                 }
 
-                // Y bounds - respawn from opposite side
-                if (positions[i3 + 1] > 50 + respawnMargin) {
-                    positions[i3 + 1] = -50 - respawnMargin;
-                    positions[i3] = (Math.random() - 0.5) * 150;
-                    positions[i3 + 2] = -Math.random() * 80;
-                } else if (positions[i3 + 1] < -50 - respawnMargin) {
-                    positions[i3 + 1] = 50 + respawnMargin;
-                    positions[i3] = (Math.random() - 0.5) * 150;
-                    positions[i3 + 2] = -Math.random() * 80;
+                if (positions[i3 + 1] > 40 + margin) {
+                    positions[i3 + 1] = -40 - margin;
+                    positions[i3] = (Math.random() - 0.5) * 120;
+                    positions[i3 + 2] = -Math.random() * 70;
+                } else if (positions[i3 + 1] < -40 - margin) {
+                    positions[i3 + 1] = 40 + margin;
+                    positions[i3] = (Math.random() - 0.5) * 120;
+                    positions[i3 + 2] = -Math.random() * 70;
                 }
 
-                // Z bounds - respawn from back
-                if (positions[i3 + 2] > 10) {
-                    positions[i3 + 2] = -80;
-                    positions[i3] = (Math.random() - 0.5) * 150;
-                    positions[i3 + 1] = (Math.random() - 0.5) * 100;
+                if (positions[i3 + 2] > 8) {
+                    positions[i3 + 2] = -70;
+                    positions[i3] = (Math.random() - 0.5) * 120;
+                    positions[i3 + 1] = (Math.random() - 0.5) * 80;
                 }
             }
 
             particlesGeometry.attributes.position.needsUpdate = true;
 
-            // Subtle camera parallax
-            camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
-            camera.position.y += (mouseY * 2 - camera.position.y) * 0.02;
+            // Gentle camera parallax
+            camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.015;
+            camera.position.y += (mouseY * 1.5 - camera.position.y) * 0.015;
 
             camera.lookAt(0, 0, 0);
             renderer.render(scene, camera);

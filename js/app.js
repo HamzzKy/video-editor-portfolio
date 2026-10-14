@@ -455,8 +455,6 @@
                     line.geometry.attributes.position.needsUpdate = true;
 
                     // Dynamic pulsing with distance-based brightness
-                    const startLogo = logos[line.userData.startIdx];
-                    const endLogo = logos[line.userData.endIdx];
                     const lineDistance = startLogo.position.distanceTo(endLogo.position);
                     const distanceFactor = THREE.MathUtils.clamp(1 - lineDistance / 35, 0.3, 1);
                     

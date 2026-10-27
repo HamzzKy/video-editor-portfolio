@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="All video editing work by HamzzKy">
+    <title>All Portfolio — HamzzKy</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="all-portfolio-page">
+    <div id="canvas-container">
+        <div class="grid-background"></div>
+        <div class="bg-shade"></div>
+    </div>
+
+    <nav>
+        <a class="logo" href="index.html">HamzzKy</a>
+        <a class="back-link" href="index.html#portfolio">← Back to portfolio</a>
+    </nav>
+
+    <main class="all-portfolio-main">
+        <header class="all-portfolio-heading">
+            <p class="section-kicker">Archive / Every cut</p>
+            <h1 class="section-title">All <span>Portfolio</span></h1>
+            <p>Explore the complete collection of long-form stories and short-form edits.</p>
+        </header>
+
+        <div class="portfolio-filter all-portfolio-filter" aria-label="Filter portfolio">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="long">Long Form</button>
+            <button class="filter-btn" data-filter="short">Short Form</button>
+        </div>
+
+        <div class="all-portfolio-grid" id="allPortfolioGrid">
+            <article class="portfolio-item" data-category="long" data-video="_VPNTwxWy8w">
+                <span class="video-badge">Long Form</span>
+                <img class="thumbnail" src="https://img.youtube.com/vi/_VPNTwxWy8w/hqdefault.jpg" alt="Professional long-form edit">
+                <div class="video-info"><h3>Professional Long-Form Edit</h3><p>YouTube Content</p></div>
+            </article>
+            <article class="portfolio-item" data-category="short" data-video="1AWZZlTHCWk">
+                <span class="video-badge">Short Form</span>
+                <img class="thumbnail" src="https://img.youtube.com/vi/1AWZZlTHCWk/hqdefault.jpg" alt="Dynamic short content">
+                <div class="video-info"><h3>Dynamic Short Content</h3><p>YouTube Shorts</p></div>
+            </article>
+            <article class="portfolio-item" data-category="short" data-video="qcsk5O0qRxo">
+                <span class="video-badge">Short Form</span>
+                <img class="thumbnail" src="https://img.youtube.com/vi/qcsk5O0qRxo/hqdefault.jpg" alt="Engaging short video">
+                <div class="video-info"><h3>Engaging Short Video</h3><p>YouTube Shorts</p></div>
+            </article>
+            <article class="portfolio-item" data-category="short" data-video="ufPjhBgZH_4">
+                <span class="video-badge">Short Form</span>
+                <img class="thumbnail" src="https://img.youtube.com/vi/ufPjhBgZH_4/hqdefault.jpg" alt="Creative short edit">
+                <div class="video-info"><h3>Creative Short Edit</h3><p>YouTube Shorts</p></div>
+            </article>
+            <article class="portfolio-item" data-category="long" data-video="ufPjhBgZH_4">
+                <span class="video-badge">Long Form</span>
+                <img class="thumbnail" src="https://img.youtube.com/vi/ufPjhBgZH_4/hqdefault.jpg" alt="Cinematic long-form edit">
+                <div class="video-info"><h3>Cinematic Long-Form</h3><p>YouTube Content</p></div>
+            </article>
+            <article class="portfolio-item" data-category="long" data-video="_VPNTwxWy8w">
+                <span class="video-badge">Long Form</span>
+                <img class="thumbnail" src="https://img.youtube.com/vi/_VPNTwxWy8w/hqdefault.jpg" alt="Story-driven video edit">
+                <div class="video-info"><h3>Story-Driven Edit</h3><p>YouTube Content</p></div>
+            </article>
+            <article class="portfolio-item" data-category="short" data-video="1AWZZlTHCWk">
+                <span class="video-badge">Short Form</span>
+                <img class="thumbnail" src="https://img.youtube.com/vi/1AWZZlTHCWk/hqdefault.jpg" alt="Fast-paced short edit">
+                <div class="video-info"><h3>Fast-Paced Short Edit</h3><p>YouTube Shorts</p></div>
+            </article>
+            <article class="portfolio-item" data-category="short" data-video="qcsk5O0qRxo">
+                <span class="video-badge">Short Form</span>
+                <img class="thumbnail" src="https://img.youtube.com/vi/qcsk5O0qRxo/hqdefault.jpg" alt="Creator highlight edit">
+                <div class="video-info"><h3>Creator Highlight</h3><p>YouTube Shorts</p></div>
+            </article>
+            <article class="portfolio-item" data-category="long" data-video="ufPjhBgZH_4">
+                <span class="video-badge">Long Form</span>
+                <img class="thumbnail" src="https://img.youtube.com/vi/ufPjhBgZH_4/hqdefault.jpg" alt="Cinematic creator edit">
+                <div class="video-info"><h3>Cinematic Creator Edit</h3><p>YouTube Content</p></div>
+            </article>
+            <article class="portfolio-item" data-category="short" data-video="qcsk5O0qRxo">
+                <span class="video-badge">Short Form</span>
+                <img class="thumbnail" src="https://img.youtube.com/vi/qcsk5O0qRxo/hqdefault.jpg" alt="Social media edit">
+                <div class="video-info"><h3>Social Media Cut</h3><p>YouTube Shorts</p></div>
+            </article>
+        </div>
+
+        <div class="all-video-modal" id="allVideoModal" aria-hidden="true">
+            <button class="close-modal" id="closeAllVideo" type="button" aria-label="Close video">&times;</button>
+            <iframe id="allVideoFrame" src="" title="Portfolio video" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+    </main>
+    <script src="js/portfolio.js"></script>
+</body>
+</html>

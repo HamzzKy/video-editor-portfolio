@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const portfolioGrid = document.getElementById('portfolioGrid');
     const originalPortfolioItems = Array.from(document.querySelectorAll('.portfolio-item'));
     if (portfolioGrid && originalPortfolioItems.length) {
-        for (let copy = 0; copy < 3; copy++) {
+        for (let copy = 0; copy < 5; copy++) {
             originalPortfolioItems.forEach(item => portfolioGrid.appendChild(item.cloneNode(true)));
         }
     }
@@ -236,15 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const visible = viewport.getBoundingClientRect().bottom > 0 &&
                 viewport.getBoundingClientRect().top < window.innerHeight;
             if (visible && window.innerWidth >= 768) {
-                if (wallDirection !== 0) {
-                    wallTarget += wallDirection * 0.28;
-                    const max = wallMaxScroll();
-                    if (wallTarget <= -max + 2) wallDirection = 1;
-                    if (wallTarget >= -2) wallDirection = -1;
-                }
-                wallCurrent += (wallTarget - wallCurrent) * 0.08;
-                if (Math.abs(wallTarget - wallCurrent) < 0.1) wallCurrent = wallTarget;
-                grid.style.marginTop = `${wallCurrent.toFixed(1)}px`;
+                grid.style.marginTop = '0';
                 const vRect = viewport.getBoundingClientRect();
                 const midY = vRect.top + vRect.height / 2;
                 portfolioItems.forEach(item => {

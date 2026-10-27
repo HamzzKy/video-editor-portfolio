@@ -106,6 +106,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Portfolio filter
     const filterBtns = document.querySelectorAll('.filter-btn');
+    const portfolioGrid = document.getElementById('portfolioGrid');
+    const originalPortfolioItems = Array.from(document.querySelectorAll('.portfolio-item'));
+    if (portfolioGrid && originalPortfolioItems.length) {
+        for (let copy = 0; copy < 3; copy++) {
+            originalPortfolioItems.forEach(item => portfolioGrid.appendChild(item.cloneNode(true)));
+        }
+    }
     const portfolioItems = document.querySelectorAll('.portfolio-item');
 
     filterBtns.forEach(btn => {
@@ -183,11 +190,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Static corner glows - always visible in home, no JS needed
 
-    // Interactive 3D portfolio wall: center focused, cursor drives scroll
+    // Certificate-style portfolio wall: a tilted, continuously moving archive.
     const viewport = document.getElementById('portfolioViewport');
     const grid = document.getElementById('portfolioGrid');
     let wallTarget = 0;
     let wallCurrent = 0;
+    let wallDirection = -1;
 
     function wallMaxScroll() {
         if (!viewport || !grid) return 0;
@@ -203,34 +211,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function wallCenter() {
-        wallTarget = -wallMaxScroll() / 2;
+        wallTarget = -wallMaxScroll() * 0.28;
         wallClamp();
     }
 
     if (viewport && grid) {
         wallCenter();
 
-        viewport.addEventListener('mousemove', (e) => {
-            if (window.innerWidth < 992) return;
-            const rect = viewport.getBoundingClientRect();
-            const y = (e.clientY - rect.top) / rect.height;
-            if (y < 0.35) wallTarget += (0.35 - y) * 18;
-            else if (y > 0.65) wallTarget -= (y - 0.65) * 18;
-            wallClamp();
-        });
-
+        viewport.addEventListener('mouseenter', () => { wallDirection = 0; });
+        viewport.addEventListener('mouseleave', () => { wallDirection = -1; });
         viewport.addEventListener('wheel', (e) => {
-            if (window.innerWidth < 992) return;
-            const max = wallMaxScroll();
-            if (max <= 0) return;
-            const goingDown = e.deltaY > 0;
-            const atBottom = wallTarget <= -max + 1;
-            const atTop = wallTarget >= -1;
-            if ((goingDown && !atBottom) || (!goingDown && !atTop)) {
-                e.preventDefault();
-                wallTarget -= e.deltaY * 0.9;
-                wallClamp();
-            }
+            e.preventDefault();
+            wallTarget -= e.deltaY * 0.45;
+            wallClamp();
         }, { passive: false });
 
         filterBtns.forEach(btn => btn.addEventListener('click', () => {
@@ -242,10 +235,16 @@ document.addEventListener('DOMContentLoaded', function() {
         (function wallLoop() {
             const visible = viewport.getBoundingClientRect().bottom > 0 &&
                 viewport.getBoundingClientRect().top < window.innerHeight;
-            if (visible && window.innerWidth >= 992) {
+            if (visible && window.innerWidth >= 768) {
+                if (wallDirection !== 0) {
+                    wallTarget += wallDirection * 0.28;
+                    const max = wallMaxScroll();
+                    if (wallTarget <= -max + 2) wallDirection = 1;
+                    if (wallTarget >= -2) wallDirection = -1;
+                }
                 wallCurrent += (wallTarget - wallCurrent) * 0.08;
                 if (Math.abs(wallTarget - wallCurrent) < 0.1) wallCurrent = wallTarget;
-                grid.style.transform = `translateY(${wallCurrent.toFixed(1)}px)`;
+                grid.style.marginTop = `${wallCurrent.toFixed(1)}px`;
                 const vRect = viewport.getBoundingClientRect();
                 const midY = vRect.top + vRect.height / 2;
                 portfolioItems.forEach(item => {
@@ -253,16 +252,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     const r = item.getBoundingClientRect();
                     const norm = Math.max(-1.2, Math.min(1.2, (r.top + r.height / 2 - midY) / (vRect.height / 2)));
                     const c = Math.max(-1, Math.min(1, norm));
-                    const rx = (-c * 22).toFixed(2);
                     const hovered = item.matches(':hover');
-                    const scale = ((hovered ? 1.06 : 1.02) - Math.abs(c) * 0.1).toFixed(3);
-                    const depth = (Math.abs(c) * -30).toFixed(1);
-                    item.style.transform = `translateZ(${depth}px) rotateX(${rx}deg) scale(${scale})`;
+                    const scale = ((hovered ? 1.04 : 1) - Math.abs(c) * 0.08).toFixed(3);
+                    item.style.transform = `translateZ(${(Math.abs(c) * -20).toFixed(1)}px) scale(${scale})`;
                     item.style.zIndex = String(100 - Math.round(Math.abs(c) * 50));
-                    item.style.opacity = (1 - Math.abs(c) * 0.12).toFixed(3);
+                    item.style.opacity = (1 - Math.abs(c) * 0.2).toFixed(3);
                 });
-            } else if (window.innerWidth < 992) {
-                grid.style.transform = '';
+            } else if (window.innerWidth < 768) {
+                grid.style.marginTop = '';
                 portfolioItems.forEach(item => {
                     item.style.transform = '';
                     item.style.opacity = '';

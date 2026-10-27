@@ -109,8 +109,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const portfolioGrid = document.getElementById('portfolioGrid');
     const originalPortfolioItems = Array.from(document.querySelectorAll('.portfolio-item'));
     if (portfolioGrid && originalPortfolioItems.length) {
-        for (let copy = 0; copy < 5; copy++) {
-            originalPortfolioItems.forEach(item => portfolioGrid.appendChild(item.cloneNode(true)));
+        portfolioGrid.innerHTML = '';
+        const columnCount = window.innerWidth < 600 ? 2 : window.innerWidth < 900 ? 3 : 5;
+        const cardsPerColumn = 10;
+
+        for (let columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+            const column = document.createElement('div');
+            column.className = `portfolio-column ${columnIndex % 2 === 0 ? 'column-up' : 'column-down'}`;
+            const track = document.createElement('div');
+            track.className = 'portfolio-column-track';
+
+            for (let copy = 0; copy < cardsPerColumn * 2; copy++) {
+                const source = originalPortfolioItems[(copy + columnIndex) % originalPortfolioItems.length];
+                track.appendChild(source.cloneNode(true));
+            }
+
+            column.appendChild(track);
+            portfolioGrid.appendChild(column);
         }
     }
     const portfolioItems = document.querySelectorAll('.portfolio-item');
@@ -236,7 +251,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const visible = viewport.getBoundingClientRect().bottom > 0 &&
                 viewport.getBoundingClientRect().top < window.innerHeight;
             if (visible && window.innerWidth >= 768) {
-                grid.style.marginTop = '0';
                 const vRect = viewport.getBoundingClientRect();
                 const midY = vRect.top + vRect.height / 2;
                 portfolioItems.forEach(item => {
@@ -251,7 +265,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     item.style.opacity = (1 - Math.abs(c) * 0.2).toFixed(3);
                 });
             } else if (window.innerWidth < 768) {
-                grid.style.marginTop = '';
                 portfolioItems.forEach(item => {
                     item.style.transform = '';
                     item.style.opacity = '';

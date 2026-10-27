@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.speedX = (Math.random() - 0.5) * 0.8;
             this.speedY = (Math.random() - 0.5) * 0.2;
             this.opacity = Math.random() * 0.4 + 0.2;
-            this.color = Math.random() > 0.6 ? '#ffd700' : '#ffed4e';
+            this.color = Math.random() > 0.6 ? '#c8f05a' : '#e5f88d';
         }
         
         update() {
@@ -79,9 +79,9 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.globalAlpha = 1;
         if (mouse.x > 0 && mouse.y > 0) {
             const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 150);
-            gradient.addColorStop(0, 'rgba(255, 215, 0, 0.07)');
-            gradient.addColorStop(0.5, 'rgba(255, 237, 78, 0.035)');
-            gradient.addColorStop(1, 'rgba(255, 215, 0, 0)');
+            gradient.addColorStop(0, 'rgba(200, 240, 90, 0.07)');
+            gradient.addColorStop(0.5, 'rgba(229, 248, 141, 0.035)');
+            gradient.addColorStop(1, 'rgba(200, 240, 90, 0)');
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         }

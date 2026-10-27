@@ -253,10 +253,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     const r = item.getBoundingClientRect();
                     const norm = Math.max(-1.2, Math.min(1.2, (r.top + r.height / 2 - midY) / (vRect.height / 2)));
                     const c = Math.max(-1, Math.min(1, norm));
-                    const rx = (-c * 32).toFixed(2);
+                    const rx = (-c * 22).toFixed(2);
                     const hovered = item.matches(':hover');
-                    const scale = ((hovered ? 1.06 : 1.03) - Math.abs(c) * 0.13).toFixed(3);
-                    item.style.transform = `rotateX(${rx}deg) scale(${scale})`;
+                    const scale = ((hovered ? 1.06 : 1.02) - Math.abs(c) * 0.1).toFixed(3);
+                    const depth = (Math.abs(c) * -30).toFixed(1);
+                    item.style.transform = `translateZ(${depth}px) rotateX(${rx}deg) scale(${scale})`;
                     item.style.zIndex = String(100 - Math.round(Math.abs(c) * 50));
                     item.style.opacity = (1 - Math.abs(c) * 0.12).toFixed(3);
                 });
